@@ -17,10 +17,10 @@ jobs:
       - name: Set up Node.js Environment
         uses: actions/setup-node@v3
         with:
-          node-version: '16' # Specify the Node.js version you need
+          node-version: '16'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build React Application
         run: npm run build
@@ -33,13 +33,9 @@ jobs:
           rm -rf package.json
           rm -rf package-lock.json
           rm -rf .babelrc
-          rm -rf tailwind.config.js
-          rm -rf postcss.config.js
 
       - name: Upload the Artifact
         uses: actions/upload-artifact@v3
         with:
           name: wpcom
-          path: |
-            .
-            !.git*
+          path: build
