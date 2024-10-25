@@ -5,14 +5,39 @@ on:
     branches:
       - main
   workflow_dispatch:
+
 jobs:
   Publish-Website:
-    name: Publish-Website
+    name: Publish Website
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: Upload the artifact
-        uses: actions/upload-artifact@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js Environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # Specify the Node.js version you need
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build React Application
+        run: npm run build
+
+      - name: Prepare Files for Deployment
+        run: |
+          rm -rf node_modules
+          rm -rf src
+          rm -rf webpack.config.js
+          rm -rf package.json
+          rm -rf package-lock.json
+          rm -rf .babelrc
+          rm -rf tailwind.config.js
+          rm -rf postcss.config.js
+
+      - name: Upload the Artifact
+        uses: actions/upload-artifact@v3
         with:
           name: wpcom
           path: |
